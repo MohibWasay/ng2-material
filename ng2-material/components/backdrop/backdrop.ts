@@ -126,15 +126,15 @@ export class MdBackdrop {
 
     let beginEvent = visible ? this.onShowing : this.onHiding;
     let endEvent = visible ? this.onShown : this.onHidden;
+    let toggleEnter = this.transitionAddClass ? Animate.enter : Animate.leave;
+    let toggleLeave = this.transitionAddClass ? Animate.leave : Animate.enter;
 
     this._visible = visible;
     this._transitioning = true;
     beginEvent.emit(this);
-    let action = visible ?
-      (this.transitionAddClass ? Animate.enter : Animate.leave) :
-      (this.transitionAddClass ? Animate.leave : Animate.enter);
+    let action = visible ? toggleLeave : toggleEnter;
 
-    // Page scroll
+    // Page scrolling
     if (visible && this.hideScroll && this.element && !this._previousOverflow) {
       let style = DOM.getStyle(this._body, 'overflow');
       if (style !== 'hidden') {
